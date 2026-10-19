@@ -10,7 +10,8 @@
         ...window.defaultContent,
         ...parsed,
         cards: parsed.cards || window.defaultContent.cards,
-        projects: parsed.projects || window.defaultContent.projects
+        projects: parsed.projects || window.defaultContent.projects,
+        theme: parsed.theme || window.defaultContent.theme
       };
     } catch (error) {
       return window.defaultContent;
@@ -167,6 +168,29 @@
 
       <a href="admin.html" class="cms-link">CMS</a>
     `;
+  }
+
+  function applyThemeFromContent() {
+    const content = getContent();
+    const theme = content.theme || window.defaultContent.theme || {};
+    const root = document.documentElement;
+    root.style.setProperty('--bg', theme.bg || '#e3e3e3');
+    root.style.setProperty('--cell', theme.cell || '#f0f0f0');
+    root.style.setProperty('--hair', theme.hair || '#d8d8d8');
+    root.style.setProperty('--ink', theme.ink || '#2e2e2e');
+    root.style.setProperty('--ink-soft', theme.inkSoft || '#585858');
+    root.style.setProperty('--red', theme.red || '#d71921');
+    root.style.setProperty('--r', `${theme.borderRadius || 22}px`);
+    root.style.setProperty('--gap', `${theme.gap || 10}px`);
+    root.style.setProperty('--base-font-size', `${theme.textSize || 12}px`);
+    const sheet = document.querySelector('.sheet');
+    if (sheet) {
+      sheet.classList.remove('layout-grid','layout-bento','layout-metro','layout-masonry');
+      sheet.classList.add(`layout-${theme.layout || 'grid'}`);
+    }
+    if (theme.cardShadow) document.documentElement.classList.add('theme-card-shadow');
+    else document.documentElement.classList.remove('theme-card-shadow');
+    document.documentElement.setAttribute('data-border-style', theme.borderStyle || 'subtle');
   }
 
   function initAnimation() {
@@ -392,6 +416,9 @@
 
   // Render the page
   render();
+
+  // Apply theme from content (if any)
+  applyThemeFromContent();
 
   // Wait a tick for the DOM to update, then initialize animation
   requestAnimationFrame(() => {

@@ -29,6 +29,18 @@ function collectFormData(content) {
     });
   });
 
+  // Collect theme fields
+  const theme = {};
+  const themeFields = ['bg','cell','hair','ink','inkSoft','red','borderRadius','gap','layout','cardShadow','borderStyle','titleSize','textSize','font'];
+  themeFields.forEach(field => {
+    const el = document.getElementById(`theme-${field}`);
+    if (!el) return;
+    if (el.type === 'checkbox') theme[field] = el.checked;
+    else if (el.type === 'number' || el.type === 'range') theme[field] = Number(el.value);
+    else theme[field] = el.value;
+  });
+
+  next.theme = theme;
   return next;
 }
 
@@ -102,6 +114,58 @@ function buildProjectFieldsHTML(content) {
   });
 }
 
+function buildThemeFieldsHTML(content) {
+  const container = document.getElementById('themeContainer');
+  container.innerHTML = '';
+  const t = content.theme || {};
+
+  const html = `
+    <div class="field"><label>Fond (background)</label><input id="theme-bg" type="color" value="${t.bg || '#e3e3e3'}" /></div>
+    <div class="field"><label>Carte (cell)</label><input id="theme-cell" type="color" value="${t.cell || '#f0f0f0'}" /></div>
+    <div class="field"><label>Contour (hair)</label><input id="theme-hair" type="color" value="${t.hair || '#d8d8d8'}" /></div>
+    <div class="field"><label>Texte (ink)</label><input id="theme-ink" type="color" value="${t.ink || '#2e2e2e'}" /></div>
+    <div class="field"><label>Accent (red)</label><input id="theme-red" type="color" value="${t.red || '#d71921'}" /></div>
+    <div class="field"><label>Arrondi (border-radius) <span id="label-borderRadius"></span></label><input id="theme-borderRadius" type="range" min="0" max="60" value="${t.borderRadius || 22}" /></div>
+    <div class="field"><label>Espacement (gap) <span id="label-gap"></span></label><input id="theme-gap" type="range" min="0" max="40" value="${t.gap || 10}" /></div>
+    <div class="field"><label>Layout cartes</label>
+      <select id="theme-layout">
+        <option value="grid">Grid</option>
+        <option value="bento">Bento</option>
+        <option value="metro">Metro</option>
+        <option value="masonry">Masonry</option>
+      </select>
+    </div>
+    <div class="field"><label>Ombre carte</label><input id="theme-cardShadow" type="checkbox" ${t.cardShadow ? 'checked' : ''} /></div>
+    <div class="field"><label>Style bord</label>
+      <select id="theme-borderStyle">
+        <option value="none">None</option>
+        <option value="subtle">Subtle</option>
+        <option value="strong">Strong</option>
+      </select>
+    </div>
+    <div class="field"><label>Taille titre (px)</label><input id="theme-titleSize" type="number" min="12" max="72" value="${t.titleSize || 38}" /></div>
+    <div class="field"><label>Taille texte (px)</label><input id="theme-textSize" type="number" min="9" max="24" value="${t.textSize || 12}" /></div>
+    <div class="field"><label>Police</label>
+      <select id="theme-font">
+        <option value="mono">IBM Plex Mono (mono)</option>
+        <option value="dot">Doto (display)</option>
+        <option value="system">System</option>
+      </select>
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  // set selects to current
+  document.getElementById('theme-layout').value = t.layout || 'grid';
+  document.getElementById('theme-borderStyle').value = t.borderStyle || 'subtle';
+  document.getElementById('theme-font').value = t.font || 'mono';
+
+  // labels
+  document.getElementById('label-borderRadius').textContent = `${t.borderRadius || 22}px`;
+  document.getElementById('label-gap').textContent = `${t.gap || 10}px`;
+}
+
 function fillForm(content) {
   document.getElementById('siteTitle').value = content.site.title;
   document.getElementById('siteSubtitle').value = content.site.subtitle;
@@ -112,11 +176,13 @@ function fillForm(content) {
 
   buildCardFieldsHTML(content);
   buildProjectFieldsHTML(content);
+  buildThemeFieldsHTML(content);
 }
 
 window.adminForm = {
   collectFormData,
   buildCardFieldsHTML,
   buildProjectFieldsHTML,
+  buildThemeFieldsHTML,
   fillForm
 };
