@@ -74,7 +74,27 @@ const defaultContent = {
       type: 'ÉVÈNEMENT',
       phase: 'PLANIFICATION'
     }
-  ]
+  ],
+  // Theme / appearance settings editable from admin
+  theme: {
+    // colors
+    bg: '#e3e3e3',
+    cell: '#f0f0f0',
+    hair: '#d8d8d8',
+    ink: '#2e2e2e',
+    inkSoft: '#585858',
+    red: '#d71921',
+    // layout
+    borderRadius: 22, // px (--r)
+    gap: 10, // px (--gap)
+    layout: 'grid', // bento | masonry | grid | metro
+    cardShadow: true,
+    borderStyle: 'subtle', // none | subtle | strong
+    // typography
+    titleSize: 38, // px max for .title clamp upper bound
+    textSize: 12, // base font-size in px
+    font: 'mono' // mono | dot | system
+  }
 };
 
 window.defaultContent = defaultContent;
