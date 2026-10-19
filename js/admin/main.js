@@ -18,21 +18,13 @@
     root.style.setProperty('--ink', theme.ink || '#2e2e2e');
     root.style.setProperty('--ink-soft', theme.inkSoft || '#585858');
     root.style.setProperty('--red', theme.red || '#d71921');
-    // layout / spacing
     root.style.setProperty('--r', `${theme.borderRadius || 22}px`);
     root.style.setProperty('--gap', `${theme.gap || 10}px`);
-    // font choices
+    // font
     if (theme.font === 'dot') root.style.setProperty('--dot', "'Doto', ui-monospace, monospace");
     else if (theme.font === 'mono') root.style.setProperty('--mono', "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace");
-    else if (theme.font === 'system') {
-      root.style.setProperty('--mono', 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial');
-      root.style.setProperty('--dot', 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial');
-    }
     // sizes
     root.style.setProperty('--base-font-size', `${theme.textSize || 12}px`);
-    root.style.setProperty('--title-size', `${theme.titleSize || 38}px`);
-    root.style.setProperty('--text-size', `${theme.textSize || 12}px`);
-
     // layout class on sheet
     const sheet = document.querySelector('.sheet');
     if (sheet) {
@@ -44,12 +36,6 @@
     else document.documentElement.classList.remove('theme-card-shadow');
 
     document.documentElement.setAttribute('data-border-style', theme.borderStyle || 'subtle');
-
-    // Update some dynamic labels if present
-    const lb = document.getElementById('label-borderRadius');
-    if (lb) lb.textContent = `${theme.borderRadius || 22}px`;
-    const lg = document.getElementById('label-gap');
-    if (lg) lg.textContent = `${theme.gap || 10}px`;
   }
 
   function saveFromForm() {
@@ -124,13 +110,13 @@
   // Presets
   const PRESETS = {
     light: {
-      bg:'#e3e3e3', cell:'#f0f0f0', hair:'#d8d8d8', ink:'#2e2e2e', inkSoft:'#585858', red:'#d71921', borderRadius:22, gap:10, layout:'grid', cardShadow:true, borderStyle:'subtle', titleSize:38, textSize:12, font:'mono'
+      bg:'#e3e3e3', cell:'#f0f0f0', hair:'#d8d8d8', ink:'#2e2e2e', inkSoft:'#585858', red:'#d71921', borderRadius:22, gap:10, layout:'grid', cardShadow:true, borderStyle:'subtle', titleSize:38, t
     },
     dark: {
-      bg:'#121212', cell:'#1b1b1b', hair:'#2a2a2a', ink:'#ffffff', inkSoft:'#d0d0d0', red:'#ff5252', borderRadius:18, gap:10, layout:'grid', cardShadow:false, borderStyle:'subtle', titleSize:38, textSize:12, font:'mono'
+      bg:'#121212', cell:'#1b1b1b', hair:'#2a2a2a', ink:'#ffffff', inkSoft:'#d0d0d0', red:'#ff5252', borderRadius:18, gap:10, layout:'grid', cardShadow:false, borderStyle:'subtle', titleSize:38, 
     },
     contrast: {
-      bg:'#ffffff', cell:'#ffffff', hair:'#000000', ink:'#000000', inkSoft:'#333333', red:'#ff0000', borderRadius:6, gap:8, layout:'bento', cardShadow:true, borderStyle:'strong', titleSize:44, textSize:13, font:'dot'
+      bg:'#ffffff', cell:'#ffffff', hair:'#000000', ink:'#000000', inkSoft:'#333333', red:'#ff0000', borderRadius:6, gap:8, layout:'bento', cardShadow:true, borderStyle:'strong', titleSize:44, te
     }
   };
 
